@@ -1,0 +1,49 @@
+{% extends 'backoffice/base_backoffice.html.twig' %}
+
+{% block title %}
+    {% if page == 'create' %}
+    New TvShow
+    {% else %}
+    TvShow {{ tvshow.title }}
+    {% endif %}
+{% endblock %}
+
+{% block backoffice_menu %}
+    {% include "backoffice/tvshow/_menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+{{ include('_partials/_flash_messages.html.twig') }}
+<h1> 
+    {% if page == 'create' %}
+        New TvShow
+    {% else %}
+        Update {{ tvshow.title }}
+    {% endif %}
+</h1>
+<div class="text-end">
+</div>
+{{ dump(tvshow_form) }}
+{{ form_start(tvshow_form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    {{ form_errors(tvshow_form) }}
+    {{ form_row(tvshow_form.title) }}
+    {{ form_row(tvshow_form.synopsis) }}
+    {{ form_row(tvshow_form.nbLikes) }}
+    {{ form_row(tvshow_form.image) }}
+    {{ form_row(tvshow_form.categories) }}
+
+    <button type="submit" class="btn btn-primary mt-4">
+    {% if 'backoffice_tvshow_add' == app.request.get('_route') %}
+    Create
+    {% else %}
+    Update
+    {% endif %}
+    </button>
+
+{{ form_end(tvshow_form) }} 
+
+</div>
+{% endblock %}

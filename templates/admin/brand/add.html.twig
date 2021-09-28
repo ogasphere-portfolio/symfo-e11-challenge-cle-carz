@@ -1,0 +1,46 @@
+{% extends 'backoffice/base_backoffice.html.twig' %}
+
+{% block title %}
+    {% if page == 'create' %}
+    New Category
+    {% else %}
+    Category {{ category.name }}
+    {% endif %}
+{% endblock %}
+
+{% block backoffice_menu %}
+    {% include "backoffice/category/_menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+{{ include('_partials/_flash_messages.html.twig') }}
+<h1> 
+    {% if page == 'create' %}
+        New Category
+    {% else %}
+        Update {{ category.name }}
+    {% endif %}
+</h1>
+<div class="text-end">
+</div>
+
+{{ form_start(category_form) }}
+
+    {{ form_errors(category_form) }}
+    {{ form_row(category_form.name) }}
+    
+
+    <button type="submit" class="btn btn-primary mt-4">
+    {% if 'backoffice_category_add' == app.request.get('_route') %}
+    Create
+    {% else %}
+    Update
+    {% endif %}
+    </button>
+
+{{ form_end(category_form) }} 
+
+</div>
+{% endblock %}

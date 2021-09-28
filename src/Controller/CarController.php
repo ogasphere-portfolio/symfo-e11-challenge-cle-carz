@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use App\Form\CarType;
+use App\Repository\CarRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,10 +21,31 @@ class CarController extends AbstractController
      /**
      * @Route("/", name="browse", methods={"GET"})
      */
-    public function browse(Request $request): Response
+    public function browse(CarRepository $carRepository): Response
     {
         // on fournit ce formulaire à notre vue
         return $this->render('admin/car/browse.html.twig', [
+            'car_list' => $carRepository->findAll()
+        ]);
+    }
+    
+    /**
+    * @Route("/read/{id}", name="read", methods={"GET"}, requirements={"id"="\d+"})
+    */
+    public function read(Request $request, Car $car): Response
+    {
+        // on créé un formulaire avec l'objet récupéré
+        // on modifie dynamiquement (dans le controleur) les options du formulaire
+        // pour désactiver tous les champs
+        $carForm = $this->createForm(CarType::class, $car, [
+            'disabled' => 'disabled'
+        ]);
+
+        
+        // on fournit ce formulaire à notre vue
+        return $this->render('admin/car/read.html.twig', [
+            'car_form' => $carForm->createView(),
+            'car' => $car,
         ]);
     }
 
@@ -64,31 +88,45 @@ class CarController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/update/{id}", name="update", methods={"GET", "POST"})
+     /**
+     * @Route("/edit/{id}", name="edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      */
-    public function update(Request $request, Car $car): Response
+    public function edit(Request $request, Car $car): Response
     {
-        $carForm = $this->createForm(CategoryType::class, $car);
+        $carForm = $this->createForm(CarType::class, $car);
 
         $carForm->handleRequest($request);
 
         if ($carForm->isSubmitted() && $carForm->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-
+            
+            
             $entityManager->flush();
 
-            $this->addFlash('success', "Le vehicule `{$car->getModel()}` a bien été mise à jour");
+            $this->addFlash('success', "Category `{$car->getModel()}` udpated successfully");
 
             return $this->redirectToRoute('admin_car_browse');
         }
 
         // on fournit ce formulaire à notre vue
         return $this->render('admin/car/add.html.twig', [
-            'category_form' => $carForm->createView(),
+            'car_form' => $carForm->createView(),
+            'car' => $car,
+            'page' => 'edit',
         ]);
     }
+    /**
+     * @Route("/delete/{id}", name="delete", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function delete(Car $car, EntityManagerInterface $entityManager): Response
+    {
+        $this->addFlash('success', "Car {$car->getId()} deleted");
 
+        $entityManager->remove($car);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_car_browse');
+    }
 }
 
 

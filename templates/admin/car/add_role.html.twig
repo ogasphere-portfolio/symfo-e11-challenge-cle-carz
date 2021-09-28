@@ -1,0 +1,30 @@
+{% extends 'backoffice/base_backoffice.html.twig' %}
+
+{% block title %}Role Play
+{% endblock %}
+
+{% block backoffice_menu %}
+    {% include "backoffice/tvshow/_menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+{{ include('_partials/_flash_messages.html.twig') }}
+<h1> Add Role to {{ roleplay.tvshow.title }}</h1>
+<div class="text-end">
+</div>
+{{ form_start(roleplay_form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    {{ form_errors(roleplay_form) }}
+    {{ form_row(roleplay_form.personage) }}
+    {{ form_row(roleplay_form.creditOrder) }}
+
+    <button type="submit" class="btn btn-primary mt-4">
+    Create
+    </button>
+
+{{ form_end(roleplay_form) }} 
+
+</div>
+{% endblock %}

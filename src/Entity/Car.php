@@ -61,12 +61,12 @@ class Car
         return $this;
     }
 
-    public function getYear(): ?\DateTimeInterface
+    public function getYear():  ?string
     {
         return $this->year;
     }
 
-    public function setYear(?\DateTimeInterface $year): self
+    public function setYear( ?string $year): self
     {
         $this->year = $year;
 
