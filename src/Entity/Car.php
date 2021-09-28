@@ -23,7 +23,7 @@ class Car
     private $model;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="string",  length=4, nullable=true)
      */
     private $year;
 
@@ -36,6 +36,13 @@ class Car
      * @ORM\Column(type="integer", nullable=true)
      */
     private $energy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Brand::class, inversedBy="cars")
+     */
+    private $brand;
+
+    
 
     public function getId(): ?int
     {
@@ -89,4 +96,18 @@ class Car
 
         return $this;
     }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): self
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+   
 }
