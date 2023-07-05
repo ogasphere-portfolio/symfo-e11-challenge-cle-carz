@@ -1,0 +1,38 @@
+<h1 id="challenge-entitéform">Challenge Entité/Form</h1>
+<blockquote>
+  <p>✋ Commandes du Maker autorisées : <code>make:controller</code>, <code>make:entity</code>, <code>make:form</code>.</p>
+  <p>✋ Mais vous pouvez choisir de le faire sans le Maker 😉 (Documentation Symfony autorisée).</p>
+</blockquote>
+<h2 id="1-entité-voiture">1. Entité Voiture</h2>
+<ul>
+<li>Créer une entité <code>Car</code> avec quelques propriétés (<code>string $model</code>, <code>int $year</code>).</li>
+<li>Créer une page qui affiche la liste des voitures, avec ses propriétés.</li>
+<li>Créer un formulaire pour ajouter une voiture.</li>
+<li>Ajouter les contraintes de validation, les tester.</li>
+<li>Rediriger vers la liste.</li>
+<li>Ajouter quelques modèles de voiture.</li>
+</ul>
+<h2 id="2-entité-marque">2. Entité Marque</h2>
+<blockquote>
+  <p>💡 Attention ici au piège de la migration avec le <em>non null</em> sur la relation, avec des données existantes =&gt; autoriser le NULL pour plus de facilité.</p>
+</blockquote>
+<ul>
+<li>Créer une entité <code>Brand</code></li>
+<li>Relier les entités <code>Car</code> et <code>Brand</code>.</li>
+<li>Une voiture n'appartient qu'à une seule marque.</li>
+<li>Une marque peut avoir plusieurs voitures.</li>
+<li>Ajouter la relation au formulaire de création de voiture.</li>
+<li>Afficher la marque dans la liste des voitures.</li>
+</ul>
+<blockquote>
+  <p>✋ Si Adminer ou Symfony vous crie dessus à cause des contraintes de clés étrangères à l'ajout de la relation Car/Brand, supprimez-les données de votre table <code>car</code>. Mais vous devrez enlever à la main ce que la migration a effectué.</p>
+</blockquote>
+<p>Si tout est OK et si nécessaire, faire en sorte qu'une voiture ne puisse pas exister sans marque associée.</p>
+<h2 id="3-bonus-au-choix-pas-de-panique-si-vous-ne-les-faites-pas">3. Bonus au choix (pas de panique si vous ne les faites pas)</h2>
+<ul>
+<li>Créer le formulaire d'édition de voiture.</li>
+<li>Suppression d'une voiture en méthode HTTP DELETE.</li>
+<li>Afficher les voitures par marque (lien sur une marque de voiture =&gt; affiche toutes les voitures de cette marque).</li>
+<li>Créer une requête custom avec jointure pour optimiser les requêtes de la liste des voitures.</li>
+<li>Créer des fixtures.</li>
+</ul>
